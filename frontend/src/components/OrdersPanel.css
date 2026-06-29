@@ -1,0 +1,104 @@
+.orders-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.orders-tabs {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.order-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.order-status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.order-status.approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.booking-action-menu {
+  position: relative;
+}
+
+.booking-action-btn {
+  border: none;
+  background: #e2e8f0;
+  color: #0f172a;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.booking-action-menu-panel {
+  position: absolute;
+  right: 0;
+  top: 2.5rem;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+  padding: 0.4rem;
+  display: grid;
+  gap: 0.35rem;
+  min-width: 160px;
+  z-index: 20;
+}
+
+.booking-action-menu-panel button {
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #0f172a;
+}
+
+.booking-action-menu-panel button:hover {
+  background: #f8fafc;
+}
+
+.order-edit-modal {
+  width: min(480px, calc(100% - 2rem));
+  background: white;
+  border-radius: 20px;
+  padding: 1.2rem;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.18);
+}
+
+.order-edit-modal form {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 0.6rem;
+}
+
+.order-edit-modal label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.order-edit-modal input {
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+  font: inherit;
+}

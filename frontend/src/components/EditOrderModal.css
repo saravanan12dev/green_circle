@@ -1,0 +1,27 @@
+.order-edit-modal {
+  width: min(480px, calc(100% - 2rem));
+  background: white;
+  border-radius: 20px;
+  padding: 1.2rem;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.18);
+}
+
+.order-edit-modal form {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 0.6rem;
+}
+
+.order-edit-modal label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.order-edit-modal input {
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+  font: inherit;
+}
