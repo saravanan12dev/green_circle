@@ -246,6 +246,9 @@ body {
   grid-template-columns: 280px 1fr;
   gap: 0;
  padding: 1rem 1rem 2rem;
+ color:white;
+  background: white;
+ 
 }
 
 .main-layout.sidebar-open {
