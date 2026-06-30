@@ -51,7 +51,34 @@ export default function App() {
   });
   const [orders, setOrders] = useState(() => loadLocalState('greenCircleOrders', []));
   const [statusMessage, setStatusMessage] = useState('');
-  const [products, setProducts] = useState(() => loadLocalState('greenCircleProducts', initialProducts));
+  const [products, setProducts] = useState(() => {
+    const storedProducts = loadLocalState('greenCircleProducts', null);
+    if (!storedProducts || !Array.isArray(storedProducts) || storedProducts.length === 0) {
+      return initialProducts;
+    }
+
+    const cleanedStoredProducts = storedProducts.filter((product) => {
+      if (!product?.title) return true;
+      return product.title.trim().toLowerCase() !== 'duke';
+    });
+    if (!cleanedStoredProducts.length) {
+      return initialProducts;
+    }
+
+    const seededProductsById = initialProducts.reduce((map, item) => {
+      map[item.id] = item;
+      return map;
+    }, {});
+
+    return cleanedStoredProducts.map((product) => {
+      const seed = seededProductsById[product.id];
+      if (!seed) return product;
+      return {
+        ...product,
+        imageUrl: seed.imageUrl,
+      };
+    });
+  });
 
   useEffect(() => {
     const loadBackendProducts = async () => {
@@ -155,8 +182,12 @@ export default function App() {
     )));
 
     if (matchedNotification?.orderId) {
+      const responseCreatedAt = new Date().toISOString();
+
       setOrders((existingOrders) => existingOrders.map((order) => (
-        order.id !== matchedNotification.orderId ? order : { ...order, status: 'Confirmed', responseMessage: finalMessage }
+        order.id !== matchedNotification.orderId
+          ? order
+          : { ...order, status: 'Confirmed', responseMessage: finalMessage, responseCreatedAt }
       )));
 
       setNotifications((existing) => [
@@ -171,6 +202,7 @@ export default function App() {
           ownerName: matchedNotification.customer,
           ownerDisplayName: user?.name || 'Owner',
           bookingDates: matchedNotification.bookingDates || [],
+          createdAt: responseCreatedAt,
         },
         ...existing,
       ]);
@@ -188,8 +220,12 @@ export default function App() {
     )));
 
     if (matchedNotification?.orderId) {
+      const responseCreatedAt = new Date().toISOString();
+
       setOrders((existingOrders) => existingOrders.map((order) => (
-        order.id !== matchedNotification.orderId ? order : { ...order, status: 'Rejected', responseMessage: finalMessage }
+        order.id !== matchedNotification.orderId
+          ? order
+          : { ...order, status: 'Rejected', responseMessage: finalMessage, responseCreatedAt }
       )));
 
       setNotifications((existing) => [
@@ -204,6 +240,7 @@ export default function App() {
           ownerName: matchedNotification.customer,
           ownerDisplayName: user?.name || 'Owner',
           bookingDates: matchedNotification.bookingDates || [],
+          createdAt: responseCreatedAt,
         },
         ...existing,
       ]);
@@ -276,11 +313,20 @@ export default function App() {
 
   const closeCartView = () => setCartOpen(false);
 
-  const openOrdersView = () => {
+  const openOrdersView = (initialView = 'our-products') => {
     setOrdersOpen(true);
-    setOrdersView('our-products');
+    setOrdersView(initialView);
     setAdminManagementOpen(false);
     setCartOpen(false);
+    setStatusMessage('');
+  };
+
+  const handleOpenOrderFromNotification = (orderId) => {
+    setOrdersOpen(true);
+    setOrdersView('my-bookings');
+    setAdminManagementOpen(false);
+    setCartOpen(false);
+    setNotificationOpen(false);
     setStatusMessage('');
   };
 
@@ -490,6 +536,7 @@ export default function App() {
           onClose={closeNotifications}
           onApprove={approveNotification}
           onReject={rejectNotification}
+          onViewOrder={handleOpenOrderFromNotification}
         />
       )}
       {postModalOpen && (

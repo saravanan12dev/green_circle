@@ -72,9 +72,12 @@ export default function OrdersPanel({
                       <span>Dates: {(order.bookingDates || []).join(', ')}</span>
                     </div>
                     {order.responseMessage && (
-                      <p className="cart-meta" style={{ marginTop: '0.35rem', color: '#2563eb' }}>
-                        Owner reply: {order.responseMessage}
-                      </p>
+                      <div className="cart-meta" style={{ marginTop: '0.35rem', color: '#2563eb' }}>
+                        <p>Owner reply: {order.responseMessage}</p>
+                        {order.responseCreatedAt && (
+                          <p className="order-response-time">Reply received: {new Date(order.responseCreatedAt).toLocaleString()}</p>
+                        )}
+                      </div>
                     )}
                   </div>
                   <div className="cart-actions">
@@ -108,9 +111,12 @@ export default function OrdersPanel({
                       <span>Dates: {(order.bookingDates || []).join(', ')}</span>
                     </div>
                     {order.responseMessage && (
-                      <p className="cart-meta" style={{ marginTop: '0.35rem', color: '#2563eb' }}>
-                        Owner reply: {order.responseMessage}
-                      </p>
+                      <div className="cart-meta" style={{ marginTop: '0.35rem', color: '#2563eb' }}>
+                        <p>Owner reply: {order.responseMessage}</p>
+                        {order.responseCreatedAt && (
+                          <p className="order-response-time">Reply received: {new Date(order.responseCreatedAt).toLocaleString()}</p>
+                        )}
+                      </div>
                     )}
                   </div>
                   <div className="cart-actions">

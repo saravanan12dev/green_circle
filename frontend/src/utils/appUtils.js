@@ -51,3 +51,12 @@ export const normalizeProfile = (profile = {}) => {
     photo: profile.photo || profile.profileImage || '',
   };
 };
+
+export const normalizeImageUrl = (url) => {
+  const trimmed = (url || '').trim();
+  if (!trimmed) return '';
+  // Allow absolute URLs, data URIs, blob, or root-relative paths
+  if (/^(https?:\/\/|\/|data:|blob:)/i.test(trimmed)) return trimmed;
+  // Treat plain filenames or relative paths as public-root assets (served from /)
+  return `/${trimmed.replace(/^\.\/?/, '')}`;
+};

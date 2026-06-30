@@ -1,13 +1,13 @@
 /* --- Root Variables & Theme System --- */
 :root {
-  --primary: #22c55e;
-  --secondary: #16a34a;
-  --background:black;
+  --primary: #10b981;
+  --secondary: #059669;
+  --background: #f4fff9;
   --card: #ffffff;
   --text-main: #1f2937;
-  --text-muted: #64748b;
+  --text-muted: #4b5563;
   --danger: #ef4444;
-  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-bg: rgba(255, 255, 255, 0.9);
   --blur: 14px;
 }
 
@@ -19,7 +19,7 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--background);
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;

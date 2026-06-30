@@ -1,26 +1,27 @@
 .sidebar {
-  background: linear-gradient(180deg, rgb(30, 28, 28)  );
-  border-radius: 0px;
-  border: 1px solid rgba(52, 211, 153, 0.25);
-  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(249, 253, 251, 0.86) 0%, rgba(241, 253, 246, 0.84) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  border: 1px solid rgba(209, 250, 229, 0.9);
+  padding: 1.35rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 50px;
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 28px rgba(16, 185, 129, 0.08);
 }
 
-.sidebar:hover{
-  transform: translateY(-5px);
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1);
-  background-color:black;
+.sidebar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
 }
 
 .sidebar-title {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 700;
-  color: white;
-  margin-bottom: 1rem;
+  color: #111827;
+  margin-bottom: 0.85rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -34,31 +35,31 @@
 .sidebar-item {
   width: 100%;
   background: #ffffff;
-  border: 1px solid transparent;
-  border-radius: 16px;
-  padding: 0.95rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
   cursor: pointer;
-  color: #164e63;
+  color: #1f2937;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all 0.2s ease-in-out;
   text-align: left;
 }
 
 .sidebar-item:hover {
-  background: #e0f2fe;
-  border-color: #93c5fd;
-  color: #0f172a;
+  background: #ecfdf5;
+  border-color: #d1fae5;
+  color: #10b981;
   transform: translateX(1px);
 }
 
 .sidebar-item.active {
-  background: #16a34a;
+  background: #10b981;
   color: #ffffff;
-  border-color: #15803d;
-  box-shadow: 0 10px 20px rgba(22, 163, 74, 0.18);
+  border-color: #059669;
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
 }
 
 .sidebar-icon {
@@ -69,8 +70,8 @@
   height: auto;
   border-radius: 0;
   background: transparent;
-  color: #16a34a;
-  font-size: 1.2rem;
+  color: #10b981;
+  font-size: 1.1rem;
 }
 
 .sidebar-bottom {

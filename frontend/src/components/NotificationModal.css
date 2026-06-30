@@ -139,6 +139,27 @@
   font-size: 0.9rem;
 }
 
+.notification-time {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.82rem;
+}
+
+.view-order-btn {
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.view-order-btn:hover {
+  background: #1d4ed8;
+}
+
 .reject-btn,
 .approve-btn {
   border: none;

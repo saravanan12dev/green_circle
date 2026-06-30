@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
 import { updateUserProfileImage } from '../services/userApi';
+import { normalizeImageUrl } from '../utils/appUtils';
 import './ProfileModal.css';
 
 export default function ProfileModal({ user, onClose, onUpdate, onLogout }) {
-  const normalizeImageUrl = (url) => {
-    const trimmed = (url || '').trim();
-    if (!trimmed) return '';
-    if (/^(https?:\/\/|\/|data:|blob:)/i.test(trimmed)) {
-      return trimmed;
-    }
-    return `/${trimmed}`;
-  };
+  
 
   const [isEditingPhoto, setIsEditingPhoto] = useState(false);
   const [photoUrl, setPhotoUrl] = useState(normalizeImageUrl(user?.photo || ''));

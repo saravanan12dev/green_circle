@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
 import './NotificationModal.css';
 
-export default function NotificationModal({ notifications, onClose, onApprove, onReject }) {
+export default function NotificationModal({ notifications, onClose, onApprove, onReject, onViewOrder }) {
   const [responseDrafts, setResponseDrafts] = useState({});
 
   const handleDraftChange = (notificationId, value) => {
     setResponseDrafts((existing) => ({ ...existing, [notificationId]: value }));
+  };
+
+  const formatTimestamp = (timestamp) => {
+    if (!timestamp) return null;
+    const date = new Date(timestamp);
+    return date.toLocaleString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
   };
 
   return (
@@ -40,6 +52,9 @@ export default function NotificationModal({ notifications, onClose, onApprove, o
                   {note.bookingDates?.length > 0 && (
                     <p className="notification-dates">Dates: {note.bookingDates.join(', ')}</p>
                   )}
+                  {note.createdAt && (
+                    <p className="notification-time">Sent: {formatTimestamp(note.createdAt)}</p>
+                  )}
                 </div>
                 <div className="notification-actions">
                   {note.status === 'Pending' ? (
@@ -64,11 +79,21 @@ export default function NotificationModal({ notifications, onClose, onApprove, o
                     <div className="notification-response-preview">
                       <span className="approved-label">Confirmed</span>
                       {note.responseMessage && <p>{note.responseMessage}</p>}
+                      {note.type === 'order-response' && note.orderId && onViewOrder && (
+                        <button type="button" className="view-order-btn" onClick={() => onViewOrder(note.orderId)}>
+                          View booking in orders
+                        </button>
+                      )}
                     </div>
                   ) : (
                     <div className="notification-response-preview">
                       <span className="rejected-label">Rejected</span>
                       {note.responseMessage && <p>{note.responseMessage}</p>}
+                      {note.type === 'order-response' && note.orderId && onViewOrder && (
+                        <button type="button" className="view-order-btn" onClick={() => onViewOrder(note.orderId)}>
+                          View booking in orders
+                        </button>
+                      )}
                     </div>
                   )}
                 </div>

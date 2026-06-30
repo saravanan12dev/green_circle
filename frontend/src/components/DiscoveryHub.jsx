@@ -1,20 +1,55 @@
-import React from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { normalizeImageUrl } from '../utils/appUtils';
 import './DiscoveryHub.css';
 
 function DiscoveryHub({ products, currentUser, onInitiateLease, onAddToCart, onRentNow, onEditProduct, onDeleteProduct, activeSearchTerm = '', cartCount = 0, cartMessage = '' }) {
   const marketplaceProducts = (products || []).filter((item) => item.isActive !== false);
+  const productRefs = useRef({});
+
+  const matchedProductId = useMemo(() => {
+    if (!activeSearchTerm) return null;
+    const searchTerm = activeSearchTerm.toLowerCase().trim();
+    const foundItem = marketplaceProducts.find((item) => {
+      return item.title.toLowerCase().includes(searchTerm)
+        || (item.category || '').toLowerCase().includes(searchTerm);
+    });
+    return foundItem?.id || null;
+  }, [activeSearchTerm, marketplaceProducts]);
+
+  useEffect(() => {
+    if (!matchedProductId) return;
+    const matchedElement = productRefs.current[matchedProductId];
+    if (matchedElement?.scrollIntoView) {
+      matchedElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+    }
+  }, [matchedProductId]);
 
   const renderProductCard = (item, isOwnedByUser = false) => {
-    const matches = activeSearchTerm && (
-      item.title.toLowerCase().includes(activeSearchTerm.toLowerCase()) ||
-      (item.category || '').toLowerCase().includes(activeSearchTerm.toLowerCase())
+    const searchTerm = activeSearchTerm.toLowerCase().trim();
+    const matches = searchTerm && (
+      item.title.toLowerCase().includes(searchTerm) ||
+      (item.category || '').toLowerCase().includes(searchTerm)
     );
 
     return (
-      <div key={item.id} className={`product-card ${matches ? 'highlight' : ''}`}>
+      <div
+        ref={(el) => {
+          if (matches) {
+            productRefs.current[item.id] = el;
+          } else {
+            delete productRefs.current[item.id];
+          }
+        }}
+        key={item.id}
+        className={`product-card ${matches ? 'highlight' : ''}`}
+      >
         <div className="product-image">
           {item.imageUrl ? (
-            <img src={item.imageUrl} alt={item.title} />
+            <img
+              src={normalizeImageUrl(item.imageUrl)}
+              alt={item.title}
+              onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = normalizeImageUrl('gearcycle.jpg'); }}
+            />
           ) : null}
           <div className="image-overlay">
             {item.category}
@@ -22,8 +57,8 @@ function DiscoveryHub({ products, currentUser, onInitiateLease, onAddToCart, onR
         </div>
         <div className="product-details">
           <div className="price-tag">₹{item.pricePerDay}/day</div>
-          <h4 style={{ margin: '0.4rem 0', fontSize: '1.15rem' }}>{item.title}</h4>
-          <p style={{ margin: '0', fontSize: '0.85rem', color: '#64748b', minHeight: '38px' }}>
+          <h4 className="product-title">{item.title}</h4>
+          <p className="product-desc">
             {item.description}
           </p>
           {item.adminName && !isOwnedByUser && (
@@ -32,9 +67,6 @@ function DiscoveryHub({ products, currentUser, onInitiateLease, onAddToCart, onR
           {isOwnedByUser && (
             <div className="owner-badge">🛠️ Your listed product</div>
           )}
-          <div className="distance-tag">
-            📍 Proximity: {parseFloat(item.distance || 0).toFixed(1)} km away
-          </div>
           {item.availableFrom && item.availableUntil && (
             <div className="availability-tag">
               🗓 Available: {item.availableFrom} → {item.availableUntil}
