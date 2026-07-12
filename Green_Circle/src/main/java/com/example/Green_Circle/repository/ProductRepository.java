@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query(value = "SELECT p.id, p.user_id, p.title, p.description, p.category, p.price_per_day, p.deposit_amount, p.image_url, p.latitude, p.longitude, p.is_available, " +
+    @Query(value = "SELECT p.id, p.owner_id, p.title, p.description, p.category, p.price_per_day, p.deposit_amount, p.image_url, p.latitude, p.longitude, p.is_available, " +
                    "(6371 * acos(cos(radians(:lat)) * cos(radians(p.latitude)) * cos(radians(p.longitude) - radians(:lon)) + sin(radians(:lat)) * sin(radians(p.latitude)))) AS distance " +
                    "FROM products p " +
                    "WHERE p.is_available = true AND " +

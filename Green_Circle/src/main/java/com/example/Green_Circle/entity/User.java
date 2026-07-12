@@ -18,6 +18,7 @@ public class User {
     private String email;
     @Column(unique = true)
     private String phone;
+    @Column(length = 512)
     private String password;
     private String city;
     private String state;
@@ -25,7 +26,7 @@ public class User {
     private Double longitude;
     @Column(name = "trust_factor_status")
     private String trustFactorStatus;
-    @Column(name = "profile_image")
+    @Column(name = "profile_image", columnDefinition = "text")
     private String profileImage;
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();

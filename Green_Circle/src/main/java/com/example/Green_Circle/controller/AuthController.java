@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.dao.DataIntegrityViolationException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -26,11 +27,18 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
-            // Check if account already exists
+            // Check if account already exists (email or phone)
             if (userRepository.findByEmail(user.getEmail()) != null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
                     "status", "failed",
                     "message", "Email address is already registered!"
+                ));
+            }
+
+            if (user.getPhone() != null && userRepository.findByPhone(user.getPhone()) != null) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
+                    "status", "failed",
+                    "message", "Phone number is already registered!"
                 ));
             }
 
@@ -49,6 +57,11 @@ public class AuthController {
                 "status", "success",
                 "message", "Registration successful!"
             ));
+        } catch (DataIntegrityViolationException dive) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
+                "status", "failed",
+                "message", "Database write error: duplicate value for a unique field (email or phone)."
+            ));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of(
                 "status", "failed",
@@ -60,16 +73,25 @@ public class AuthController {
     // ⚡ FIXES THE 404 EXCEPTION ERROR BY HANDLING THE LOGIN POST ROUTE
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody Map<String, String> credentials) {
-        String email = credentials.get("email");
+        String identifier = credentials.get("email");
         String password = credentials.get("password");
 
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(identifier);
+        if (user == null) {
+            user = userRepository.findByPhone(identifier);
+        }
 
-        // Validate if user exists and text passwords match
-        if (user == null || !user.getPassword().equals(password)) {
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                "status", "failed",
+                "message", "No user account found for that email or phone number."
+            ));
+        }
+
+        if (!user.getPassword().equals(password)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
                 "status", "failed",
-                "message", "Mismatched credentials or failed system authentication."
+                "message", "Incorrect password."
             ));
         }
 

@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Long> {
     // Allows us to look up users by email during login later
     User findByEmail(String email);
+    // Allows checking phone uniqueness during registration
+    User findByPhone(String phone);
 }

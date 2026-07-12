@@ -7,8 +7,19 @@ export const jsonRequest = async (path, options = {}) => {
   });
 
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || `Request failed with status ${response.status}`);
+    let errorMessage = `Request failed with status ${response.status}`;
+    const responseBody = await response.text();
+
+    if (responseBody) {
+      try {
+        const errBody = JSON.parse(responseBody);
+        errorMessage = errBody && (errBody.message || errBody.error || JSON.stringify(errBody));
+      } catch (e) {
+        errorMessage = responseBody;
+      }
+    }
+
+    throw new Error(errorMessage);
   }
 
   if (response.status === 204) {
