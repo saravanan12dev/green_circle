@@ -1,4 +1,4 @@
-export const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+export const BACKEND_URL = import.meta.env.VITE_API_URL || 'https://green-circle-java.onrender.com';
 
 export const jsonRequest = async (path, options = {}) => {
   const response = await fetch(`${BACKEND_URL}${path}`, {
