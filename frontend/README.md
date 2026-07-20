@@ -2,6 +2,8 @@
 
 This frontend is built with React and Vite for the Green Circle rental marketplace. It provides user authentication, product discovery, cart and checkout flows, order management, escrow handling, and admin/trust dashboards.
 
+Live demo: https://green-circle-rust.vercel.app
+
 ## Main frontend sections
 - Authentication flow: login and registration
 - Discovery Hub: hyperlocal rental search
