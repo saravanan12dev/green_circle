@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { registerUser } from '../../services/authApi';
 import './register.css';
 
@@ -116,6 +116,9 @@ export default function Register({ onRegisterSuccess, switchToLogin }) {
 
         <div className="auth-footer">
           Already registered? <span onClick={switchToLogin} className="auth-link">Sign in</span>
+        </div>
+        <div className="company-footer">
+          © 2026 <span className="company-name">SR Tech Solutions</span>. All Rights Reserved.
         </div>
       </div>
     </div>

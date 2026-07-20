@@ -65,6 +65,12 @@ function TrustDashboard() {
           </tbody>
         </table>
       </div>
+
+      <div className="dashboard-footer">
+        © 2026{' '}
+        <span className="dashboard-company">SR Tech Solutions</span>
+        . All Rights Reserved.
+      </div>
     </div>
   );
 }

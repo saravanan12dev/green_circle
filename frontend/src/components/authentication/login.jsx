@@ -93,6 +93,9 @@ export default function Login({ onAuthSuccess, switchToRegister }) {
       <div className="auth-footer">
         Don't have an account? <span onClick={switchToRegister} className="auth-link">Register here</span>
       </div>
+      <div className="company-footer">
+        © 2026 <span className="company-name">SR Tech Solutions</span>. All Rights Reserved.
+      </div>
     </div>
     </div>
   );

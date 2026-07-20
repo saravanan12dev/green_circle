@@ -35,6 +35,28 @@ body {
   padding-right: 0;
 }
 
+/* --- App Footer --- */
+.app-footer {
+  width: 100%;
+  text-align: center;
+  padding: 1.2rem 1rem;
+  margin-top: auto;
+  background: linear-gradient(90deg, rgba(245, 215, 110, 0.15) 0%, rgba(212, 175, 55, 0.2) 100%);
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  color: #4b5563;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.footer-company-name {
+  background: linear-gradient(90deg, #f5d76e 0%, #d4af37 35%, #f8e7a1 70%, #b8860b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 900;
+  display: inline-block;
+}
+
 /* --- Screen 2: Identity Shielding Tag --- */
 .verified-tag {
   font-size: 0.75rem;
@@ -388,6 +410,38 @@ body {
 }
 
 /* --- Screen 5: Transaction History Escrow Ledger --- */
+.dashboard-view {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.dashboard-footer {
+  margin-top: 2rem;
+  text-align: center;
+  padding: 1.2rem 1.5rem;
+  border: 2px solid rgba(212, 175, 55, 0.45);
+  border-radius: 12px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.12);
+  font-weight: 600;
+}
+
+.dashboard-company {
+  background: linear-gradient(90deg, #fff8a8 0%, #f5d76e 20%, #d4af37 50%, #f8e7a1 80%, #b8860b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 950;
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+  margin: 0 0.3rem;
+  display: inline-block;
+}
+
 .ledger-container {
   background: white;
   border-radius: 12px;

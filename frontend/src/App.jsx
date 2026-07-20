@@ -509,6 +509,10 @@ export default function App() {
             <TrustDashboard />
           )}
         </main>
+
+        <footer className="app-footer">
+          © 2026 <span className="footer-company-name">SR Tech Solutions</span>. All Rights Reserved.
+        </footer>
       </div>
 
       {editingOrder && (

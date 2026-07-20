@@ -6,7 +6,7 @@
   align-items: center;
   padding: 2rem;
   box-sizing: border-box;
-  background: linear-gradient(155deg,black 50%, green 0%);
+  background: url('/loginbg.png') center/cover no-repeat;
 }
 
 .auth-card {
@@ -15,9 +15,11 @@
   margin: 0 auto;
   padding: 1.25rem 1.5rem;
   border-radius: 20px;
-  background: rgba(22, 163, 74, 0.8);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  box-shadow: 0 16px 60px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .auth-form-scrollable {
@@ -85,6 +87,16 @@
   justify-content: center;
 }
 
+.company-footer {
+  margin-top: 0.65rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.92);
+}
 
-
+.company-name {
+  color: #f5c542;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(245, 197, 66, 0.25);
+}
 
