@@ -17,13 +17,16 @@ public class WebConfig {
         final CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(Arrays.asList(
+        // Allows Vercel frontend, local dev, and wildcard subdomains
+        config.setAllowedOriginPatterns(Arrays.asList(
             "https://green-circle-rust.vercel.app",
+            "https://*.vercel.app",
             "http://localhost:5173",
             "http://localhost:3000"
         ));
         config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
+        config.setMaxAge(3600L);
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
