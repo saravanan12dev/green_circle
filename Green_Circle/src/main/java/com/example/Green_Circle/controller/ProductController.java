@@ -38,25 +38,27 @@ public class ProductController {
         }
     }
 
-    @PostMapping
+   @PostMapping
     public ResponseEntity<?> createProduct(@RequestBody Product product) {
         try {
-            // If product has an owner ID, fetch the owner from database
             if (product.getOwner() != null && product.getOwner().getId() != null) {
                 User owner = userRepository.findById(product.getOwner().getId())
-                        .orElseThrow(() -> new RuntimeException("Owner not found"));
+                        .orElseThrow(() -> new RuntimeException("Owner not found with ID: " + product.getOwner().getId()));
                 product.setOwner(owner);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("status", "error", "message", "User/Owner ID is required to post a product."));
             }
-            
+
             Product savedProduct = productRepository.save(product);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(Map.of(
-                        "status", "success",
-                        "message", "Product created successfully",
-                        "productId", savedProduct.getId()
+                            "status", "success",
+                            "message", "Product created successfully",
+                            "productId", savedProduct.getId()
                     ));
         } catch (Exception e) {
-            return ResponseEntity.badRequest()
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("status", "error", "message", "Failed to create product: " + e.getMessage()));
         }
     }
