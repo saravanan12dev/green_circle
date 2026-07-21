@@ -85,6 +85,7 @@ const handleSubmit = async (e) => {
       if (editingProduct?.id) {
         await updateProduct(editingProduct.id, productPayload);
       } else {
+        console.log("FINAL PAYLOAD:", productPayload);
         await createProduct(productPayload);
       }
       onSave(productPayload);
