@@ -186,4 +186,4 @@ const productPayload = {
       </div>
     </div>
   );
-}
+
