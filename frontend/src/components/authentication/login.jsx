@@ -20,21 +20,25 @@ export default function Login({ onAuthSuccess, switchToRegister }) {
         throw new Error(data.message || 'Mismatched credentials or failed system authentication.');
       }
 
-      localStorage.setItem('token', data.token);
-      const profiles = JSON.parse(localStorage.getItem('userProfiles') || '{}');
-      const normalizedKey = email.toLowerCase();
-      const profileFromLocal = profiles[normalizedKey] || Object.values(profiles).find((p) => {
-        return p.email?.toLowerCase() === normalizedKey || p.phone === email || p.secondaryPhone === email;
-      });
+     localStorage.setItem('token', data.token);
 
-      onAuthSuccess(profileFromLocal || {
-        name: data.username || email,
-        email,
-        phone: '',
-        secondaryPhone: '',
-        address: '',
-        photo: '',
-      });
+// 💡 SAVE FULL USER OBJECT (WITH ID) TO LOCALSTORAGE
+const userToSave = {
+    id: data.user?.id || data.id || 1,
+    name: data.user?.name || data.username || email,
+    email: data.user?.email || email,
+    phone: data.user?.phone || ''
+};
+
+localStorage.setItem('currentUser', JSON.stringify(userToSave));
+
+const profiles = JSON.parse(localStorage.getItem('userProfiles')) || {};
+const normalizedKey = email.toLowerCase();
+const profileFromLocal = profiles[normalizedKey] || Object.values(profiles).find(p => {
+    return p.email?.toLowerCase() === normalizedKey || p.phone === email || p.secondaryPhone === email;
+});
+
+onAuthSuccess(profileFromLocal || userToSave);
     } catch (err) {
       setError(err.message || 'Server context unreachable.');
     } finally {

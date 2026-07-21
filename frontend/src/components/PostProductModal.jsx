@@ -53,31 +53,33 @@ export default function PostProductModal({ user, editingProduct = null, onClose,
     }));
   };
 
- // 1. Read 'currentUser' from localStorage (matches your DevTools storage key)
-const storedUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+const handleSubmit = async (e) => {
+    e.preventDefault();
 
-// 2. Extract user ID safely
-const userId = storedUser.id || storedUser.userId || user?.id || 1;
+    // 1. Read user data safely from localStorage inside the submit handler
+    const storedUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+    const validOwnerId = storedUser.id || storedUser.userId || storedUser._id || user?.id || 1;
 
-const productPayload = {
-  title: form.title,
-  description: form.description,
-  category: form.category ? form.category.toUpperCase() : "VEHICLES",
-  pricePerDay: Number(form.pricePerDay) || 0,
-  imageUrl: form.imageUrl,
-  distance: Number((Math.random() * 3 + 0.5).toFixed(1)),
-  addedByName: storedUser.name || "SARAVANAN R",
-  addedPhone: storedUser.phone || "9876543210",
-  addedAddress: form.addedAddress || "Chennai",
-  availableFrom: form.availableFrom,
-  availableUntil: form.availableUntil,
-  blockedDates: form.blockedDates,
+    // 2. Build product payload
+    const productPayload = {
+      title: form.title,
+      description: form.description,
+      category: form.category ? form.category.toUpperCase() : "VEHICLES",
+      pricePerDay: Number(form.pricePerDay) || 0,
+      imageUrl: form.imageUrl,
+      distance: Number((Math.random() * 3 + 0.5).toFixed(1)),
+      addedByName: storedUser.name || "SARAVANAN R",
+      addedPhone: storedUser.phone || "9876543210",
+      addedAddress: form.addedAddress || "Chennai",
+      availableFrom: form.availableFrom,
+      availableUntil: form.availableUntil,
+      blockedDates: form.blockedDates,
+      owner: {
+        id: Number(validOwnerId)
+      }
+    };
 
-  // 💡 THIS ACCURATELY ATTACHES YOUR OWNER OBJECT WITH THE USER ID:
-  owner: {
-    id: Number(userId)
-  }
-};
+    // Keep the rest of your handleSubmit try/catch logic below...
 
     try {
       if (editingProduct?.id) {
