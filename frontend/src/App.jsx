@@ -563,3 +563,27 @@ export default function App() {
   );
 }
 
+import React from 'react';
+import logo from './assets/logo.png'; // Make sure logo.png is inside frontend/src/assets/
+import './App.css';
+
+function App() {
+  return (
+    <div className="app-container">
+      {/* Existing application content */}
+      <main className="main-content">
+        {/* Your current routes or login/register cards */}
+      </main>
+
+      {/* --- ADD THIS LOGO SECTION --- */}
+      <footer className="footer-logo-section">
+        <div className="logo-container">
+          <img src={logo} alt="Green Circle Logo" className="logo-img" />
+          <span className="brand-title">Green Circle</span>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export default App;

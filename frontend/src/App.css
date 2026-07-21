@@ -517,3 +517,38 @@ body {
     padding-bottom: 0.5rem;
   }
 }
+
+
+/* Footer & Logo Container Styles */
+.footer-logo-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 0;
+  margin-top: auto;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.08); /* Soft glassmorphism background */
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.logo-img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+}
+
+.brand-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2e7d32; /* Green Circle theme color */
+  letter-spacing: 0.5px;
+}
