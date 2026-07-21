@@ -2,7 +2,7 @@
 
 Green Circle is a full-stack web application for hyperlocal rentals and trust-enabled marketplace interactions. It combines a React/Vite frontend with a Spring Boot backend and PostgreSQL persistence.
 
-Live demo: https://green-circle-rust.vercel.app
+Live demo: https://green-circle-rust.vercel.app/
 
 ## Overview
 This project enables users to browse local rental products, register and log in, place rental orders, and manage escrow-style transactions. The backend exposes REST APIs for authentication, product discovery, and order lifecycle management.
