@@ -53,22 +53,28 @@ export default function PostProductModal({ user, editingProduct = null, onClose,
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const productPayload = {
-      title: form.title,
-      description: form.description,
-      category: form.category.toUpperCase(),
-      pricePerDay: Number(form.pricePerDay) || 0,
-      imageUrl: form.imageUrl,
-      distance: Number((Math.random() * 3 + 0.5).toFixed(1)),
-      adminName: user.name,
-      adminPhone: user.phone,
-      adminAddress: user.address,
-      availableFrom: form.availableFrom,
-      availableUntil: form.availableUntil,
-      blockedDates: form.blockedDates,
-    };
+  // 1. Get logged-in user from localStorage (or fallback to passed user prop)
+const currentUser = JSON.parse(localStorage.getItem('user')) || user;
+
+const productPayload = {
+  title: form.title,
+  description: form.description,
+  category: form.category.toUpperCase(),
+  pricePerDay: Number(form.pricePerDay) || 0,
+  imageUrl: form.imageUrl,
+  distance: Number((Math.random() * 3 + 0.5).toFixed(1)),
+  addedByName: currentUser?.name || form.addedByName,
+  addedPhone: currentUser?.phone || form.addedPhone,
+  addedAddress: form.addedAddress,
+  availableFrom: form.availableFrom,
+  availableUntil: form.availableUntil,
+  blockedDates: form.blockedDates,
+  
+  // 💡 THIS LINE FIXES THE 400 ERROR:
+  owner: {
+    id: currentUser?.id
+  }
+};
 
     try {
       if (editingProduct?.id) {
