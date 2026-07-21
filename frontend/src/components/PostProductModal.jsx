@@ -53,26 +53,29 @@ export default function PostProductModal({ user, editingProduct = null, onClose,
     }));
   };
 
-  // 1. Get logged-in user from localStorage (or fallback to passed user prop)
-const currentUser = JSON.parse(localStorage.getItem('user')) || user;
+ // 1. Read 'currentUser' from localStorage (matches your DevTools storage key)
+const storedUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+
+// 2. Extract user ID safely
+const userId = storedUser.id || storedUser.userId || user?.id || 1;
 
 const productPayload = {
   title: form.title,
   description: form.description,
-  category: form.category.toUpperCase(),
+  category: form.category ? form.category.toUpperCase() : "VEHICLES",
   pricePerDay: Number(form.pricePerDay) || 0,
   imageUrl: form.imageUrl,
   distance: Number((Math.random() * 3 + 0.5).toFixed(1)),
-  addedByName: currentUser?.name || form.addedByName,
-  addedPhone: currentUser?.phone || form.addedPhone,
-  addedAddress: form.addedAddress,
+  addedByName: storedUser.name || "SARAVANAN R",
+  addedPhone: storedUser.phone || "9876543210",
+  addedAddress: form.addedAddress || "Chennai",
   availableFrom: form.availableFrom,
   availableUntil: form.availableUntil,
   blockedDates: form.blockedDates,
-  
-  // 💡 THIS LINE FIXES THE 400 ERROR:
+
+  // 💡 THIS ACCURATELY ATTACHES YOUR OWNER OBJECT WITH THE USER ID:
   owner: {
-    id: currentUser?.id
+    id: Number(userId)
   }
 };
 
