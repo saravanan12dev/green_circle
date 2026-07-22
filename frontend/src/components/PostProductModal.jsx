@@ -79,24 +79,27 @@ const handleSubmit = async (e) => {
       }
     };
 
-    // Keep the rest of your handleSubmit try/catch logic below...
-
     try {
+      let savedData;
       if (editingProduct?.id) {
-        await updateProduct(editingProduct.id, productPayload);
+        savedData = await updateProduct(editingProduct.id, productPayload);
       } else {
-        console.log("FINAL PAYLOAD:", productPayload);
-        await createProduct(productPayload);
+        savedData = await createProduct(productPayload);
       }
-      onSave(productPayload);
-      onClose();
-    } catch (error) {
-      console.warn('Product save failed, using local state:', error);
-      onSave(productPayload);
-      onClose();
-    }
-  };
 
+      alert("Product successfully posted to database!");
+      
+      // Pass saved database response back to parent
+      if (onSave) onSave(savedData || productPayload);
+      if (onClose) onClose();
+      
+      // Reload to reflect changes across all users
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to post product to database:", error);
+      alert("Error saving product: " + (error.message || "Server unreachable"));
+    }
+  
   const fullName = useMemo(() => user?.name || 'Admin', [user]);
 
   return (
