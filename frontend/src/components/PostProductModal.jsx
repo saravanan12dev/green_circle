@@ -62,6 +62,7 @@ const handleSubmit = async (e) => {
     const validOwnerId = rawOwnerId ? Number(rawOwnerId) : null;
 
     if (!validOwnerId || Number.isNaN(validOwnerId)) {
+      console.error('PostProductModal: invalid owner id', { storedUser, user, rawOwnerId, validOwnerId });
       alert('Please sign in before posting a product. Owner ID is required.');
       return;
     }
@@ -85,6 +86,8 @@ const handleSubmit = async (e) => {
         id: validOwnerId,
       },
     };
+
+    console.debug('Posting product payload', productPayload);
 
     try {
       let savedData;

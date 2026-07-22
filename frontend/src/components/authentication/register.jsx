@@ -45,6 +45,7 @@ export default function Register({ onRegisterSuccess, switchToLogin }) {
       if (!userPayload.id) {
         throw new Error('Registration response is missing user id. Please sign in after registration.');
       }
+      localStorage.setItem('currentUser', JSON.stringify(userPayload));
       onRegisterSuccess(userPayload);
     } catch (err) {
       setError(err.message || 'Network connection context interrupted.');
