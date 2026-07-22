@@ -58,9 +58,10 @@ const handleSubmit = async (e) => {
 
     // 1. Read user data safely from localStorage inside the submit handler
     const storedUser = JSON.parse(localStorage.getItem('currentUser')) || {};
-    const validOwnerId = storedUser.id || storedUser.userId || storedUser._id || user?.id;
+    const rawOwnerId = storedUser.id || storedUser.userId || storedUser._id || user?.id;
+    const validOwnerId = rawOwnerId ? Number(rawOwnerId) : null;
 
-    if (!validOwnerId) {
+    if (!validOwnerId || Number.isNaN(validOwnerId)) {
       alert('Please sign in before posting a product. Owner ID is required.');
       return;
     }
@@ -79,8 +80,9 @@ const handleSubmit = async (e) => {
       availableFrom: form.availableFrom,
       availableUntil: form.availableUntil,
       blockedDates: form.blockedDates,
+      ownerId: validOwnerId,
       owner: {
-        id: Number(validOwnerId),
+        id: validOwnerId,
       },
     };
 
