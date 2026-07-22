@@ -19,6 +19,9 @@ public class Product {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
+    @Transient
+    private Long ownerId;
+
     private String title;
     private String description;
     private String category;

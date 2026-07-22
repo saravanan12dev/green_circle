@@ -41,9 +41,16 @@ public class ProductController {
    @PostMapping
     public ResponseEntity<?> createProduct(@RequestBody Product product) {
         try {
+            Long ownerId = null;
             if (product.getOwner() != null && product.getOwner().getId() != null) {
-                User owner = userRepository.findById(product.getOwner().getId())
-                        .orElseThrow(() -> new RuntimeException("Owner not found with ID: " + product.getOwner().getId()));
+                ownerId = product.getOwner().getId();
+            } else if (product.getOwnerId() != null) {
+                ownerId = product.getOwnerId();
+            }
+
+            if (ownerId != null) {
+                User owner = userRepository.findById(ownerId)
+                        .orElseThrow(() -> new RuntimeException("Owner not found with ID: " + ownerId));
                 product.setOwner(owner);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
