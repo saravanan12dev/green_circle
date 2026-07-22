@@ -34,13 +34,17 @@ export default function Register({ onRegisterSuccess, switchToLogin }) {
 
       alert('Account registered! Proceeding to platform interface gateway.');
       const userPayload = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
+        id: data.id || data.user?.id || null,
+        name: data.name || formData.name,
+        email: data.email || formData.email,
+        phone: data.phone || formData.phone,
         secondaryPhone: formData.secondaryPhone || '',
         address: `${formData.city || ''}${formData.city && formData.state ? ', ' : ''}${formData.state || ''}`,
-        photo: formData.photo || '',
+        photo: data.profileImage || formData.photo || '',
       };
+      if (!userPayload.id) {
+        throw new Error('Registration response is missing user id. Please sign in after registration.');
+      }
       onRegisterSuccess(userPayload);
     } catch (err) {
       setError(err.message || 'Network connection context interrupted.');

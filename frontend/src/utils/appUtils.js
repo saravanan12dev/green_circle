@@ -43,6 +43,7 @@ export const normalizeProfile = (profile = {}) => {
     || '';
 
   return {
+    id: profile.id || profile.userId || profile._id || null,
     name: profile.name || '',
     email: profile.email || '',
     phone: normalizedPhone,

@@ -22,15 +22,18 @@ export default function Login({ onAuthSuccess, switchToRegister }) {
 
      localStorage.setItem('token', data.token);
 
-// 💡 SAVE FULL USER OBJECT (WITH ID) TO LOCALSTORAGE
-const userToSave = {
-    id: data.user?.id || data.id || 1,
-    name: data.user?.name || data.username || email,
-    email: data.user?.email || email,
-    phone: data.user?.phone || ''
-};
+     const userToSave = {
+       id: data.id || data.user?.id || null,
+       name: data.user?.name || data.name || data.username || email,
+       email: data.user?.email || data.email || email,
+       phone: data.user?.phone || data.phone || ''
+     };
 
-localStorage.setItem('currentUser', JSON.stringify(userToSave));
+     if (!userToSave.id) {
+       throw new Error('Login response is missing user id. Please contact support or retry.');
+     }
+
+     localStorage.setItem('currentUser', JSON.stringify(userToSave));
 
 const profiles = JSON.parse(localStorage.getItem('userProfiles')) || {};
 const normalizedKey = email.toLowerCase();
