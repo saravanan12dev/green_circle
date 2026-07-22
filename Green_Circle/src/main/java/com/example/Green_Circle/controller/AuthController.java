@@ -55,7 +55,11 @@ public class AuthController {
             User savedUser = userRepository.save(user);
             return ResponseEntity.ok(Map.of(
                 "status", "success",
-                "message", "Registration successful!"
+                "message", "Registration successful!",
+                "id", savedUser.getId(),
+                "name", savedUser.getName(),
+                "email", savedUser.getEmail(),
+                "phone", savedUser.getPhone()
             ));
         } catch (DataIntegrityViolationException dive) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
@@ -102,7 +106,11 @@ public class AuthController {
             "status", "success",
             "message", "Login verified!",
             "token", secureToken,
-            "username", user.getName()
+            "id", user.getId(),
+            "username", user.getName(),
+            "name", user.getName(),
+            "email", user.getEmail(),
+            "phone", user.getPhone()
         ));
     }
 }
