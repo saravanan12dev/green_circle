@@ -58,25 +58,30 @@ const handleSubmit = async (e) => {
 
     // 1. Read user data safely from localStorage inside the submit handler
     const storedUser = JSON.parse(localStorage.getItem('currentUser')) || {};
-    const validOwnerId = storedUser.id || storedUser.userId || storedUser._id || user?.id || 1;
+    const validOwnerId = storedUser.id || storedUser.userId || storedUser._id || user?.id;
+
+    if (!validOwnerId) {
+      alert('Please sign in before posting a product. Owner ID is required.');
+      return;
+    }
 
     // 2. Build product payload
     const productPayload = {
       title: form.title,
       description: form.description,
-      category: form.category ? form.category.toUpperCase() : "VEHICLES",
+      category: form.category ? form.category.toUpperCase() : 'VEHICLES',
       pricePerDay: Number(form.pricePerDay) || 0,
       imageUrl: form.imageUrl,
       distance: Number((Math.random() * 3 + 0.5).toFixed(1)),
-      addedByName: storedUser.name || "SARAVANAN R",
-      addedPhone: storedUser.phone || "9876543210",
-      addedAddress: form.addedAddress || "Chennai",
+      addedByName: storedUser.name || 'SARAVANAN R',
+      addedPhone: storedUser.phone || '9876543210',
+      addedAddress: form.addedAddress || 'Chennai',
       availableFrom: form.availableFrom,
       availableUntil: form.availableUntil,
       blockedDates: form.blockedDates,
       owner: {
-        id: Number(validOwnerId)
-      }
+        id: Number(validOwnerId),
+      },
     };
 
     try {
@@ -87,19 +92,20 @@ const handleSubmit = async (e) => {
         savedData = await createProduct(productPayload);
       }
 
-      alert("Product successfully posted to database!");
-      
+      alert('Product successfully posted to database!');
+
       // Pass saved database response back to parent
       if (onSave) onSave(savedData || productPayload);
       if (onClose) onClose();
-      
+
       // Reload to reflect changes across all users
       window.location.reload();
     } catch (error) {
-      console.error("Failed to post product to database:", error);
-      alert("Error saving product: " + (error.message || "Server unreachable"));
+      console.error('Failed to post product to database:', error);
+      alert('Error saving product: ' + (error.message || 'Server unreachable'));
     }
-  
+  };
+
   const fullName = useMemo(() => user?.name || 'Admin', [user]);
 
   return (
@@ -195,5 +201,4 @@ const handleSubmit = async (e) => {
       </div>
     </div>
   );
-}
 }
