@@ -33,15 +33,18 @@ export default function Login({ onAuthSuccess, switchToRegister }) {
        throw new Error('Login response is missing user id. Please contact support or retry.');
      }
 
-     localStorage.setItem('currentUser', JSON.stringify(userToSave));
+     const profiles = JSON.parse(localStorage.getItem('userProfiles')) || {};
+     const normalizedKey = email.toLowerCase();
+     const profileFromLocal = profiles[normalizedKey] || Object.values(profiles).find(p => {
+       return p.email?.toLowerCase() === normalizedKey || p.phone === email || p.secondaryPhone === email;
+     });
 
-const profiles = JSON.parse(localStorage.getItem('userProfiles')) || {};
-const normalizedKey = email.toLowerCase();
-const profileFromLocal = profiles[normalizedKey] || Object.values(profiles).find(p => {
-    return p.email?.toLowerCase() === normalizedKey || p.phone === email || p.secondaryPhone === email;
-});
+     const selectedProfile = profileFromLocal
+       ? { ...userToSave, ...profileFromLocal, id: userToSave.id }
+       : userToSave;
 
-onAuthSuccess(profileFromLocal || userToSave);
+     localStorage.setItem('currentUser', JSON.stringify(selectedProfile));
+     onAuthSuccess(selectedProfile);
     } catch (err) {
       setError(err.message || 'Server context unreachable.');
     } finally {
